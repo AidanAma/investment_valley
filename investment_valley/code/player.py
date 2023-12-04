@@ -130,12 +130,12 @@ class Player(pygame.sprite.Sprite):
             elif 780 >= posX >= 530 and 250 >= posY >= 200:  # Check if the player is near Real Estate building
                 print("Real Estate Area")
             elif 1220 >= posX >= 960 and 250 >= posY >= 200:  ##Check if the player is near Casino building
-                print("Casino Area")
+                self.prompt_to_play_casino()
             elif 400 >= posX >= 250 and 680 >= posY >= 630:  # Check if the player is near Bank building
                 self.in_bank_menu = True
                 self.show_bank_menu = True
             elif 1200 >= posX >= 980 and 700 >= posY >= 630:  # Check if the player is near Lottery building
-                print("Lottery Area")
+                self.prompt_to_play_lottery()
 
         if keys[pygame.K_ESCAPE]:
             if 325 >= posX >= 115 and 250 >= posY >= 200 and self.in_stock_building and self.show_stock_menu:
@@ -395,7 +395,43 @@ class Player(pygame.sprite.Sprite):
         self.display_surface.blit(menu_image,(100,50))
         balance_image = bank_menu_font.render("$"+str(self.money), True, (0,0,0))
         self.display_surface.blit(balance_image, (470,600))
+        
+#Casino/Lottery Prompts Below
 
+    def prompt_to_play_lottery(self):
+        # Display a prompt to ask the player if they want to play at the casino
+        play_prompt_rect = pygame.Rect(400, 200, 480, 200)
+        pygame.draw.rect(self.display_surface, (0, 0, 0), play_prompt_rect)
+        pygame.draw.rect(self.display_surface, (255, 255, 255), play_prompt_rect, 2)
+
+        prompt_lines = [
+            "This is where you can play the lottery.",
+            "Each ticket costs $50 and offers 3% odds to win.",
+            "If you would like to play, you can press the 'L' key."
+        ]
+
+        # Convert the prompt_lines list to a single string
+        prompt_text = ' '.join(prompt_lines)
+
+        text_position = (play_prompt_rect.left + 20, play_prompt_rect.top + 20)
+        self.draw_text_multiline(prompt_text, text_position, max_width=440, line_height=30)
+    def prompt_to_play_casino(self):
+        # Display a prompt to ask the player if they want to play at the casino
+        play_prompt_rect = pygame.Rect(400, 200, 480, 200)
+        pygame.draw.rect(self.display_surface, (0, 0, 0), play_prompt_rect)
+        pygame.draw.rect(self.display_surface, (255, 255, 255), play_prompt_rect, 2)
+
+        prompt_lines = [
+            "This is the casino, here you can play roulette.",
+            "The casino is not a good place to spend your money.",
+            "If you would like to play, you can press the 'R' key."
+        ]
+
+        # Convert the prompt_lines list to a single string
+        prompt_text = ' '.join(prompt_lines)
+
+        text_position = (play_prompt_rect.left + 20, play_prompt_rect.top + 20)
+        self.draw_text_multiline(prompt_text, text_position, max_width=440, line_height=30)
     def update(self, dt):
         self.input()
         self.get_status()
